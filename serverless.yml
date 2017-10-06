@@ -38,3 +38,13 @@ functions:
       - http:
           path: todos
           method: post
+    environment:
+      STAGE: ${self:custom.currentStage}
+  fetchAllTodo:
+    handler: handler.FetchAllTodo
+    events:
+      - http:
+          path: todos
+          method: get
+    environment:
+      STAGE: ${self:custom.currentStage}

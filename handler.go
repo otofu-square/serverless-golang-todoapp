@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -36,7 +37,7 @@ func DynamoDB() dynamo.Table {
 	db := dynamo.New(session.New(), &aws.Config{
 		Region: aws.String("ap-northeast-1"),
 	})
-	return db.Table("Todos")
+	return db.Table(os.Getenv("STAGE") + "-Todos")
 }
 
 func Ping(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
@@ -49,6 +50,16 @@ func CreateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{
 	err := DynamoDB().Put(todo).Run()
 	if err == nil {
 		return apigateway.NewAPIGatewayResponseWithBody(201, todo), nil
+	} else {
+		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
+	}
+}
+
+func FetchAllTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
+	var todos []Todo
+	err := DynamoDB().Scan().All(&todos)
+	if err == nil {
+		return apigateway.NewAPIGatewayResponseWithBody(200, todos), nil
 	} else {
 		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
 	}
