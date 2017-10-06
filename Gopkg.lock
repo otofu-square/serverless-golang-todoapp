@@ -13,9 +13,21 @@
   packages = ["service/lambda/runtime/event/apigatewayproxyevt"]
   revision = "a318481f661f091bafea408f9967cb1ac5bf8905"
 
+[[projects]]
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  revision = "879c5887cd475cd7864858769793b2ceb0d44feb"
+  version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/yunspace/serverless-golang"
+  packages = ["api","aws/event/apigateway"]
+  revision = "839beb7b7ba8d062a7b0b6ae4159f6b875aaf366"
+  version = "1.22.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b77771a89f8009ff84d254bac12dfe0e2393b397e69cc9cd716e299c6faa6d7d"
+  inputs-digest = "6a5f95d607766ab88ad423dc8ff7b04238bb4ea7c492e5917de7fa8a89211c42"
   solver-name = "gps-cdcl"
   solver-version = 1
