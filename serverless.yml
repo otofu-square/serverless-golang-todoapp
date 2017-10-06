@@ -3,11 +3,27 @@ service: serverless-golang-todoapp
 package:
   artifact: package.zip
 
+custom:
+  currentStage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
   runtime: python2.7
   stage: ${env:STAGE}
   region: ${env:AWS_DEFAULT_REGION}
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:DescribeTable
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+    Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.currentStage}-*
+
+resources: ${file(resources.yml)}
 
 functions:
   ping:
