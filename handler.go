@@ -32,19 +32,21 @@ func NewTodo(title string, completed bool) *Todo {
 	}
 }
 
+func DynamoDB() dynamo.Table {
+	db := dynamo.New(session.New(), &aws.Config{
+		Region: aws.String("ap-northeast-1"),
+	})
+	return db.Table("Todos")
+}
+
 func Ping(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
 	response := apigateway.NewAPIGatewayResponseWithBody(200, "Pong")
 	return response, nil
 }
 
 func CreateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
-	db := dynamo.New(session.New(), &aws.Config{
-		Region: aws.String("ap-northeast-1"),
-	})
-	table := db.Table("Todos")
-
 	todo := NewTodo("Test todo", false)
-	err := table.Put(todo).Run()
+	err := DynamoDB().Put(todo).Run()
 	if err == nil {
 		return apigateway.NewAPIGatewayResponseWithBody(201, todo), nil
 	} else {
