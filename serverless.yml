@@ -32,3 +32,9 @@ functions:
       - http:
           path: ping
           method: get
+  createTodos:
+    handler: handler.CreateTodo
+    events:
+      - http:
+          path: todos
+          method: post
