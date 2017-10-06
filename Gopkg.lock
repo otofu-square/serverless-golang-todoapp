@@ -2,6 +2,18 @@
 
 
 [[projects]]
+  name = "github.com/aws/aws-sdk-go"
+  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/shareddefaults","private/protocol","private/protocol/json/jsonutil","private/protocol/jsonrpc","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/xml/xmlutil","service/dynamodb","service/dynamodb/dynamodbattribute","service/dynamodb/dynamodbiface","service/sts"]
+  revision = "da415b5fa0ff3f91d4707348a8ea1be53f700c22"
+  version = "v1.12.6"
+
+[[projects]]
+  name = "github.com/cenkalti/backoff"
+  packages = ["."]
+  revision = "61153c768f31ee5f130071d08fc82b85208528de"
+  version = "v1.1.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/eawsy/aws-lambda-go-core"
   packages = ["service/lambda/runtime"]
@@ -12,6 +24,23 @@
   name = "github.com/eawsy/aws-lambda-go-event"
   packages = ["service/lambda/runtime/event/apigatewayproxyevt"]
   revision = "a318481f661f091bafea408f9967cb1ac5bf8905"
+
+[[projects]]
+  name = "github.com/go-ini/ini"
+  packages = ["."]
+  revision = "20b96f641a5ea98f2f8619ff4f3e061cff4833bd"
+  version = "v1.28.2"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/guregu/dynamo"
+  packages = [".","internal/exprs"]
+  revision = "1d2203aef9357343034c5c5e098b3c2b769dd941"
+
+[[projects]]
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  revision = "0b12d6b5"
 
 [[projects]]
   name = "github.com/satori/go.uuid"
@@ -25,9 +54,15 @@
   revision = "839beb7b7ba8d062a7b0b6ae4159f6b875aaf366"
   version = "1.22.0"
 
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  revision = "a04bdaca5b32abe1c069418fb7088ae607de5bd0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6a5f95d607766ab88ad423dc8ff7b04238bb4ea7c492e5917de7fa8a89211c42"
+  inputs-digest = "9aef41c23eb46f85117e3d1b549ec2a6b2d3d49f011da15090cb94b9b3367f00"
   solver-name = "gps-cdcl"
   solver-version = 1
