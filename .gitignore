@@ -98,3 +98,4 @@ var/
 
 # Serverless directories
 .serverless
+package.zip
