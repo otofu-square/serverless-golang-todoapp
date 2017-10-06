@@ -12,4 +12,4 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-      TableName: ${self:custom.currentStage}-todos
+      TableName: ${self:custom.currentStage}-Todos

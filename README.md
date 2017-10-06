@@ -8,6 +8,7 @@ Special Thanks to [yunspace/serverless-golang](yunspace/serverless-golang):spark
 - Go 1.9
 - [dep](https://github.com/golang/dep)
 - Node.js 8.6.0
+- Docker
 
 # Set up development environment
 
