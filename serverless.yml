@@ -54,3 +54,15 @@ functions:
           method: get
     environment:
       STAGE: ${self:custom.currentStage}
+  fetchSingleTodo:
+    handler: handler.FetchSingleTodo
+    events:
+      - http:
+          path: todos/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+    environment:
+      STAGE: ${self:custom.currentStage}

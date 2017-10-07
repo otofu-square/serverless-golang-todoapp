@@ -55,3 +55,15 @@ func FetchAllTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interfac
 	}
 	return apigateway.NewAPIGatewayResponseWithBody(200, todos), nil
 }
+
+func FetchSingleTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
+	ID := evt.PathParameters["id"]
+	if ID == "" {
+		return apigateway.NewAPIGatewayResponseWithBody(400, "Invalid query string"), nil
+	}
+	var todo Todo
+	if err := DynamoDB().Get("ID", ID).One(&todo); err != nil {
+		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
+	}
+	return apigateway.NewAPIGatewayResponseWithBody(200, todo), nil
+}
