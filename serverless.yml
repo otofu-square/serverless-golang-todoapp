@@ -32,6 +32,12 @@ functions:
       - http:
           path: ping
           method: get
+  echo:
+    handler: handler.Echo
+    events:
+      - http:
+          path: echo
+          method: post
   createTodos:
     handler: handler.CreateTodo
     events:
