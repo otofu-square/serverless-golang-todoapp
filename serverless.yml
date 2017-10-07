@@ -40,22 +40,36 @@ functions:
           method: post
   createTodos:
     handler: handler.CreateTodo
+    environment:
+      STAGE: ${self:custom.currentStage}
     events:
       - http:
           path: todos
           method: post
+  deleteTodo:
+    handler: handler.DeleteTodo
     environment:
       STAGE: ${self:custom.currentStage}
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
   fetchAllTodo:
     handler: handler.FetchAllTodo
+    environment:
+      STAGE: ${self:custom.currentStage}
     events:
       - http:
           path: todos
           method: get
-    environment:
-      STAGE: ${self:custom.currentStage}
   fetchSingleTodo:
     handler: handler.FetchSingleTodo
+    environment:
+      STAGE: ${self:custom.currentStage}
     events:
       - http:
           path: todos/{id}
@@ -64,5 +78,3 @@ functions:
             parameters:
               paths:
                 id: true
-    environment:
-      STAGE: ${self:custom.currentStage}

@@ -48,6 +48,18 @@ func CreateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{
 	return apigateway.NewAPIGatewayResponseWithBody(201, todo), nil
 }
 
+func DeleteTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
+	var deletedTodo Todo
+	ID := evt.PathParameters["id"]
+	if ID == "" {
+		return apigateway.NewAPIGatewayResponseWithBody(400, "Invalid query string"), nil
+	}
+	if err := DynamoDB().Delete("ID", ID).OldValue(&deletedTodo); err != nil {
+		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
+	}
+	return apigateway.NewAPIGatewayResponseWithBody(200, deletedTodo), nil
+}
+
 func FetchAllTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
 	var todos []Todo
 	if err := DynamoDB().Scan().All(&todos); err != nil {
