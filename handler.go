@@ -59,8 +59,7 @@ func Echo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, err
 
 func CreateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
 	todo := NewTodo("Test todo", false)
-	err := DynamoDB().Put(todo).Run()
-	if err == nil {
+	if err := DynamoDB().Put(todo).Run(); err == nil {
 		return apigateway.NewAPIGatewayResponseWithBody(201, todo), nil
 	} else {
 		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
@@ -69,8 +68,7 @@ func CreateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{
 
 func FetchAllTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
 	var todos []Todo
-	err := DynamoDB().Scan().All(&todos)
-	if err == nil {
+	if err := DynamoDB().Scan().All(&todos); err == nil {
 		return apigateway.NewAPIGatewayResponseWithBody(200, todos), nil
 	} else {
 		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
