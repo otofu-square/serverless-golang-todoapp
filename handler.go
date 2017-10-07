@@ -79,3 +79,22 @@ func FetchSingleTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (inter
 	}
 	return apigateway.NewAPIGatewayResponseWithBody(200, todo), nil
 }
+
+func UpdateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
+	var jsonParams struct {
+		Title     string `json:"title"`
+		Completed bool   `json:"completed"`
+	}
+	var newTodo Todo
+	ID := evt.PathParameters["id"]
+	if ID == "" {
+		return apigateway.NewAPIGatewayResponseWithBody(400, "Invalid query string"), nil
+	}
+	if err := json.Unmarshal([]byte(evt.Body), &jsonParams); err != nil {
+		return apigateway.NewAPIGatewayResponseWithError(400, err), nil
+	}
+	if err := DynamoDB().Update("ID", ID).Add("Title", jsonParams.Title).Add("Completed", jsonParams.Completed).Value(&newTodo); err != nil {
+		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
+	}
+	return apigateway.NewAPIGatewayResponseWithBody(200, newTodo), nil
+}

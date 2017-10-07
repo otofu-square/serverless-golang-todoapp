@@ -78,3 +78,15 @@ functions:
             parameters:
               paths:
                 id: true
+  updateTodo:
+    handler: handler.UpdateSingleTodo
+    environment:
+      STAGE: ${self:custom.currentStage}
+    events:
+      - http:
+          path: todos/{id}
+          method: patch
+          request:
+            parameters:
+              paths:
+                id: true
