@@ -34,19 +34,24 @@ func Echo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, err
 }
 
 func CreateTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
-	todo := NewTodo("Test todo", false)
-	if err := DynamoDB().Put(todo).Run(); err == nil {
-		return apigateway.NewAPIGatewayResponseWithBody(201, todo), nil
-	} else {
+	var jsonParams struct {
+		Title     string `json:"title"`
+		Completed bool   `json:"completed"`
+	}
+	if err := json.Unmarshal([]byte(evt.Body), &jsonParams); err != nil {
+		return apigateway.NewAPIGatewayResponseWithError(400, err), nil
+	}
+	todo := NewTodo(jsonParams.Title, jsonParams.Completed)
+	if err := DynamoDB().Put(todo).Run(); err != nil {
 		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
 	}
+	return apigateway.NewAPIGatewayResponseWithBody(201, todo), nil
 }
 
 func FetchAllTodo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
 	var todos []Todo
-	if err := DynamoDB().Scan().All(&todos); err == nil {
-		return apigateway.NewAPIGatewayResponseWithBody(200, todos), nil
-	} else {
+	if err := DynamoDB().Scan().All(&todos); err != nil {
 		return apigateway.NewAPIGatewayResponseWithError(502, err), nil
 	}
+	return apigateway.NewAPIGatewayResponseWithBody(200, todos), nil
 }
