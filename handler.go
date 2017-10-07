@@ -23,14 +23,12 @@ func Ping(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, err
 	return apigateway.NewAPIGatewayResponseWithBody(200, "Pong"), nil
 }
 
-type EchoMessage struct {
-	Message string `json:"message"`
-}
-
 func Echo(evt *apigatewayproxyevt.Event, ctx *runtime.Context) (interface{}, error) {
-	var message EchoMessage
+	var message struct {
+		Message string `json:"message"`
+	}
 	if err := json.Unmarshal([]byte(evt.Body), &message); err != nil {
-		return nil, err
+		return apigateway.NewAPIGatewayResponseWithError(400, err), nil
 	}
 	return apigateway.NewAPIGatewayResponseWithBody(200, message), nil
 }
